@@ -35,7 +35,7 @@
 [":" "," ";"] @punctuation.delimiter
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket
 
-;; Name binding when assigning a function literal:  foo: { ... }
+;; Name binding when assigning a function literal: foo: { ... }
 ;; Capture the identifier anywhere within the left subtree when RHS has a function literal.
 ((assignment
    left: (_ (variable_ref (identifier) @function))) @assign
