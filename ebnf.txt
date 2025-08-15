@@ -1,0 +1,174 @@
+/* =================== program structure =================== */
+Program        ::= { StmtSep } Statements? { StmtSep } Eof
+Statements     ::= Statement { StmtSep Statement }
+
+StmtSep        ::= ( Semicolon | Newline ) { ( Semicolon | Newline ) } [ { Comment } ]
+
+Block          ::= { StmtSep } Statements? { StmtSep }
+
+Statement      ::= Expression
+Expression     ::= Assignment
+
+Assignment     ::= CommaExpr
+                 | LValue Colon Assignment
+
+/* LHS: either a bare variable name or something with at least one [] */
+LValue         ::= VariableRef
+                 | IndexedPostfix
+
+/* At least one index suffix, then any number of additional suffixes */
+IndexedPostfix ::= Primary IndexSuffix { Suffix }
+
+/* =================== comma layer =================== */
+
+CommaExpr      ::= LeadingCommaList
+                 | Additive { Comma Additive -> desugar to cat(Additive, Additive) }
+
+/* ,a,b,c */
+LeadingCommaList ::= Comma Additive { Comma Additive }
+
+/* =================== precedence & associativity =================== */
+/* Highest ... Lowest:
+   Postfix  >  Power  >  Unary  >  Multiplicative  >  Comparison  >  Additive
+*/
+
+Additive       ::= Comparison { (Plus | Minus) Comparison }
+
+Comparison     ::= Multiplicative
+                   { (Equal | NotEqual | LessThan | LessThanOrEqual
+                                   | GreaterThan | GreaterThanOrEqual)
+                     Multiplicative }
+
+Multiplicative ::= Unary
+                   { (Multiply | Divide | DivideDot | Modulo | ModuloDot) Unary }
+
+Power          ::= Postfix
+                 | Postfix Caret Power
+
+/* -2^2 = -(2^2) */
+Unary          ::= { Minus | Sharp } Power
+
+/* =================== postfix & suffixes =================== */
+
+Postfix        ::= Primary { Suffix }
+
+Suffix         ::= IndexSuffix
+                 | JuxtapositionArg    /* only if no Newline between callee and arg */
+
+IndexSuffix    ::= LeftBracket BracketItems RightBracket
+
+/* items separated by ';' only; comments/newlines can surround ';' */
+BracketItems   ::=                             /* empty */
+                 | Item ( ReqItemSep Item )* [ ReqItemSep ]
+Item           ::= Expression
+ReqItemSep     ::= [ { Comment | Newline } ] Semicolon [ { Comment | Newline } ]
+
+/* one unary expression directly adjacent (no NL). Comments allowed between. */
+JuxtapositionArg ::= Unary
+
+/* =================== primary forms =================== */
+
+Primary        ::= Literal
+                 | VariableRef
+                 | FunctionLiteral
+                 | ParenListOrDict
+                 | Conditional
+                 | ConditionalDot
+                 | WhileForm
+                 | ForForm
+                 | ReturnForm
+                 | BreakForm
+                 | ContinueForm
+                 | AssertForm
+                 | TryForm
+
+Literal        ::= Integer | Float | Character | String | Symbol
+                 | True | False | Inf | NaN
+
+VariableRef    ::= Identifier
+
+FunctionLiteral ::= LeftBrace [ ParamList ] Block RightBrace
+
+ParamList      ::= LeftBracket [ Param { Semicolon Param } ] RightBracket
+Param          ::= Identifier
+                   /* Only ';' separates params; comments/NL allowed around */
+
+/* () empty list, or list/dict with ';' item separators and optional trailing ';' */
+ParenListOrDict ::= LeftParen
+                     [ { Comment | Newline } ]
+                     ( RightParen                         /* () empty list */
+                     | DictBody
+                     | ListBody )
+
+ListBody       ::= Expression
+                   ( ReqItemSep Expression )*
+                   [ ReqItemSep ]
+                   RightParen
+
+DictBody       ::= Symbol Colon Expression
+                   ( ReqItemSep Symbol Colon Expression )*
+                   [ ReqItemSep ]
+                   RightParen
+
+/* =================== control forms =================== */
+
+Conditional    ::= Dollar LeftBracket
+                    ControlCond
+                    ControlSep
+                    Branch          /* true */
+                    ControlTrueFalseSep
+                    Branch          /* false */
+                   RightBracket
+
+ConditionalDot ::= DollarDot LeftBracket
+                    ControlCond
+                    ControlSep
+                    Branch          /* single true branch */
+                   RightBracket
+
+WhileForm      ::= "W"              /* recognized by Identifier + '[' in parser */
+                   LeftBracket
+                    ControlCond
+                    ControlSep
+                    Branch
+                   RightBracket
+
+ForForm        ::= "N"
+                   LeftBracket
+                    CountExpr
+                    ControlSep
+                    Branch
+                   RightBracket
+
+ControlCond    ::= Expression
+CountExpr      ::= Expression
+
+/* Control separators:
+   - between cond and true, and between true and false (for $)
+   - accept ';' OR ≥1 newline; comments may surround but not replace
+*/
+ControlSep          ::= Semicolon [ { Comment | Newline } ]
+                      | Newline { Newline } [ { Comment } ]
+ControlTrueFalseSep ::= Semicolon [ { Comment | Newline } ]
+                      | Newline { Newline } [ { Comment } ]
+
+/* Branch: one or more expressions separated by NL;
+   a ';' also separates only when it is NOT an end token for the caller.
+   The parser stops BEFORE the end token and does not consume it. */
+Branch         ::= [ { Comment | Newline } ] Expression
+                   { BranchInnerSep Expression }
+
+/* In practice BranchInnerSep is:
+   - Newline
+   - OR Semicolon, only if ';' is not one of the caller’s end tokens.
+   Comments can appear around but never act as separators. */
+BranchInnerSep ::= Newline
+                 | /* Semicolon if not an end-token (contextual, parser-enforced) */
+
+/* =================== control-flow primaries =================== */
+
+ReturnForm     ::= AtReturn [ Expression ]  /* bare if next token is one of ; ] ) } NL EOF */
+BreakForm      ::= AtBreak
+ContinueForm   ::= AtContinue
+AssertForm     ::= AtAssert Expression
+TryForm        ::= AtTry Expression

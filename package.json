@@ -1,0 +1,26 @@
+{
+  "name": "wq-tree-sitter",
+  "version": "0.1.1",
+  "description": "tree-sitter for wq",
+  "main": "grammar.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/illusory-dept/wq-tree-sitter.git"
+  },
+  "keywords": [
+    "wq",
+    "tree-sitter"
+  ],
+  "author": "tttiw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/illusory-dept/wq-tree-sitter/issues"
+  },
+  "homepage": "https://github.com/illusory-dept/wq-tree-sitter",
+  "devDependencies": {
+    "tree-sitter-cli": "^0.25.8"
+  }
+}

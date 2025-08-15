@@ -1,0 +1,54 @@
+null? A123
+b:`a?
+a:NaN;b:nan
+c:Inf;d:inf
+e:true;f:false
+
+gete:{
+  e:alloc x; e[0]:2; p:x+10; a:1+0*til p
+  N[x-1;
+    carry:0; j:p-1
+    W[j>0;
+      temp:a[j]*10+carry
+      a[j]:temp%j
+      carry:floor(temp/j)
+      j:j-1]
+    e[_n+1]:carry%10]
+  e}
+echo gete 100
+
+primes:{
+  p: til[x + 1] > 1;limit: floor sqrt x;i: 2
+  W[i <= limit;
+    $.[p[i];
+      j: i * i
+      W[j <= x;
+        p[j]: false
+        j: j + i]]
+    i: $[i = 2; 3; i + 2]]
+  where[p]}
+echo primes 100
+
+a:{[a]b:{x+a}};c:a[5]
+@a c[3]=8
+echo "ok"
+
+a:10
+f:{a:4;f2:{f3:{a}};a:5;f2}
+@a f[][][]=4
+echo "ok"
+
+// list of dicts
+employees:((`id:1;`name:"Steve";`age:30;`dept:`HR);(`id:2;`name:"Alex";`age:25;`dept:`IT);(`id:3;`name:"Sunny";`age:27;`dept:`Sales))
+// dict of lists
+grades:(`name:("Steve";"Alex";"Sunny");`math:(85;90;78);`eng:(88;93;82);`sci:(90;89;85))
+// dict of dicts
+inventory:(`laptop:(`price:1200;`qty:10;`brand:"D");`mouse:(`price:25;`qty:100;`brand:"L");`desk:(`price:300;`qty:15;`brand:"I"))
+// lod, with nested lists
+orders:((`id:1001;`cust:"A123";`items:(`p:"Pen";`q:2),(`p:"Notebook";`q:1));(`id:1002;`cust:"B456";`items:(`p:"Pencil";`q:5)))
+
+print_sep:{echo "================================"}
+showt employees;print_sep[]
+showt grades   ;print_sep[]
+showt inventory;print_sep[]
+showt orders
