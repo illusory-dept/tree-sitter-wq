@@ -1,12 +1,10 @@
-// grammar.js
-
 const PREC = {
   POSTFIX: 9,
   POWER: 8,
   UNARY: 7,
   MULT: 6,
-  COMP: 5,
-  ADD: 4,
+  ADD: 5,
+  COMP: 4,
 };
 
 module.exports = grammar({
@@ -29,21 +27,20 @@ module.exports = grammar({
 
     // separators
     // ==========
-    // atomic separator unit: either ';' or one+ newlines
+    // Atomic separator unit: either ';' or one+ newlines
     sep_unit: ($) => choice(";", $.newline),
     // one-or-more helper to avoid "repeat of repeat" conflicts
     seps: ($) => prec.left(repeat1($.sep_unit)),
 
     // program structure
     // =================
-
     // statements: statement (seps statement)* [seps]
     statements: ($) =>
       prec.right(
         seq($.statement, repeat(seq($.seps, $.statement)), optional($.seps)),
       ),
 
-    // either statements (with optional seps around) OR at least one sep by itself
+    // Either statements (with optional seps around) OR at least one sep by itself
     block: ($) =>
       choice(seq(repeat($.sep_unit), $.statements, repeat($.sep_unit)), $.seps),
 
@@ -52,7 +49,6 @@ module.exports = grammar({
 
     // expressions
     // ===========
-
     // Expressions: assignment or plain comma expression
     expression: ($) => choice($.assignment, $.comma_expr),
 
@@ -63,22 +59,13 @@ module.exports = grammar({
         seq(field("left", $.comma_expr), ":", field("right", $.expression)),
       ),
 
-    // comma
+    // Comma
     // =====
-
     comma_expr: ($) =>
-      // Additive { ',' Additive }
-      prec.left(seq($.additive, repeat(seq(",", $.additive)))),
+      prec.left(seq($.comparison, repeat(seq(",", $.comparison)))),
 
-    // precedence
+    // Precedence
     // ==========
-
-    additive: ($) =>
-      prec.left(
-        PREC.ADD,
-        seq($.comparison, repeat(seq(choice("+", "-"), $.comparison))),
-      ),
-
     comparison: ($) =>
       prec.left(
         PREC.COMP,
@@ -90,15 +77,17 @@ module.exports = grammar({
         ),
       ),
 
+    additive: ($) =>
+      prec.left(
+        PREC.ADD,
+        seq($.comparison, repeat(seq(choice("+", "-"), $.comparison))),
+      ),
+
     multiplicative: ($) =>
       prec.left(
         PREC.MULT,
         seq($.unary, repeat(seq(choice("*", "/", "/.", "%", "%."), $.unary))),
       ),
-
-    // Power ::= Postfix '^' Power | Postfix
-    power: ($) =>
-      choice(prec.right(PREC.POWER, seq($.postfix, "^", $.power)), $.postfix),
 
     // Unary ::= { '-' | '#' } Power (-2^2 => -(2^2))
     unary: ($) =>
@@ -107,9 +96,12 @@ module.exports = grammar({
         $.power,
       ),
 
-    // postfix
-    // =======
+    // Power ::= Postfix '^' Power | Postfix
+    power: ($) =>
+      choice(prec.right(PREC.POWER, seq($.postfix, "^", $.power)), $.postfix),
 
+    // Postfix
+    // =======
     // Postfix using left recursion but prioritize base-case primary
     postfix: ($) =>
       choice(
@@ -149,9 +141,8 @@ module.exports = grammar({
       ),
     juxtaposition_arg: ($) => prec(PREC.POSTFIX, $.nonminus_unary),
 
-    // primary forms
+    // Primary forms
     // =============
-
     primary: ($) =>
       choice(
         $.literal,
@@ -221,9 +212,8 @@ module.exports = grammar({
         ")",
       ),
 
-    // control forms
+    // Control forms
     // =============
-
     conditional: ($) =>
       seq(
         "$",
@@ -288,9 +278,8 @@ module.exports = grammar({
 
     branch_inner_sep: ($) => choice($.newline, ";"),
 
-    // control-flow primaries
+    // Control flow primaries
     // ======================
-
     // Prefer '@r <expr>'; bare '@r' only when caller stops it
     return_form: ($) => choice(prec.right(1, seq("@r", $.expression)), "@r"),
     // Include an optional trailing newline variant so the literal '@b'/'@c'
@@ -301,9 +290,8 @@ module.exports = grammar({
     assert_form: ($) => seq("@a", $.expression),
     try_form: ($) => seq("@t", $.expression),
 
-    // tokens
+    // Tokens
     // ======
-
     identifier: ($) => /[A-Za-z_][A-Za-z0-9_?]*/,
 
     integer: ($) => token(/[0-9]+/),
