@@ -1,20 +1,5 @@
 [
   {
-    "type": "additive",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comparison",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "assert_form",
     "named": true,
     "fields": {},
@@ -159,7 +144,7 @@
       "required": true,
       "types": [
         {
-          "type": "additive",
+          "type": "comparison",
           "named": true
         }
       ]
@@ -939,10 +924,6 @@
     }
   },
   {
-    "type": "!=",
-    "named": false
-  },
-  {
     "type": "#",
     "named": false
   },
@@ -972,10 +953,6 @@
   },
   {
     "type": "*",
-    "named": false
-  },
-  {
-    "type": "+",
     "named": false
   },
   {
@@ -1129,6 +1106,10 @@
   },
   {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]

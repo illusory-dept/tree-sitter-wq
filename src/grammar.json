@@ -170,7 +170,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "additive"
+            "name": "comparison"
           },
           {
             "type": "REPEAT",
@@ -183,7 +183,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "additive"
+                  "name": "comparison"
                 }
               ]
             }
@@ -215,7 +215,7 @@
                     },
                     {
                       "type": "STRING",
-                      "value": "!="
+                      "value": "~"
                     },
                     {
                       "type": "STRING",
