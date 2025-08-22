@@ -71,9 +71,7 @@ module.exports = grammar({
         PREC.COMP,
         seq(
           $.multiplicative,
-          repeat(
-            seq(choice("=", "!=", "<", "<=", ">", ">="), $.multiplicative),
-          ),
+          repeat(seq(choice("=", "~", "<", "<=", ">", ">="), $.multiplicative)),
         ),
       ),
 
