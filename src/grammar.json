@@ -199,7 +199,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "multiplicative"
+            "name": "additive"
           },
           {
             "type": "REPEAT",
@@ -237,7 +237,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "multiplicative"
+                  "name": "additive"
                 }
               ]
             }
@@ -253,7 +253,7 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "comparison"
+            "name": "multiplicative"
           },
           {
             "type": "REPEAT",
@@ -275,7 +275,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "comparison"
+                  "name": "multiplicative"
                 }
               ]
             }
