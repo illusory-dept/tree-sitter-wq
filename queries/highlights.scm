@@ -30,7 +30,7 @@
 
 ;; operators & punctuation
 ["+" "-" "*" "/" "/." "%" "%." "^"
- "=" "!=" "<" "<=" ">" ">="] @operator
+ "=" "~" "<" "<=" ">" ">="] @operator
 
 [":" "," ";"] @punctuation.delimiter
 ["(" ")" "[" "]" "{" "}"] @punctuation.bracket

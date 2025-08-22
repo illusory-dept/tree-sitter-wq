@@ -70,15 +70,15 @@ module.exports = grammar({
       prec.left(
         PREC.COMP,
         seq(
-          $.multiplicative,
-          repeat(seq(choice("=", "~", "<", "<=", ">", ">="), $.multiplicative)),
+          $.additive,
+          repeat(seq(choice("=", "~", "<", "<=", ">", ">="), $.additive)),
         ),
       ),
 
     additive: ($) =>
       prec.left(
         PREC.ADD,
-        seq($.comparison, repeat(seq(choice("+", "-"), $.comparison))),
+        seq($.multiplicative, repeat(seq(choice("+", "-"), $.multiplicative))),
       ),
 
     multiplicative: ($) =>
