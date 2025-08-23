@@ -798,6 +798,10 @@
           "named": true
         },
         {
+          "type": "shebang",
+          "named": true
+        },
+        {
           "type": "statement",
           "named": true
         }
@@ -1105,6 +1109,10 @@
   },
   {
     "type": "newline",
+    "named": true
+  },
+  {
+    "type": "shebang",
     "named": true
   },
   {

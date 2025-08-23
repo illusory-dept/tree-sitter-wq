@@ -22,8 +22,9 @@ module.exports = grammar({
   ],
 
   rules: {
-    // Allow an arbitrary interleave of statements and separators
-    source_file: ($) => repeat(choice($.statement, $.sep_unit)),
+    // Allow an optional shebang followed by an arbitrary interleave of statements and separators
+    source_file: ($) =>
+      seq(optional($.shebang), repeat(choice($.statement, $.sep_unit))),
 
     // separators
     // ==========
@@ -308,5 +309,7 @@ module.exports = grammar({
     comment: ($) => token(seq("//", /[^\n]*/)),
 
     newline: ($) => token(/\r?\n+/),
+
+    shebang: ($) => token(seq("#!", /[^\n]*/)),
   },
 });

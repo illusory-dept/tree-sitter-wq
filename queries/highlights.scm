@@ -1,5 +1,6 @@
 ;; comments
 (comment) @comment
+(shebang) @comment
 
 ;; literals
 (integer)   @number
