@@ -787,7 +787,11 @@
         },
         {
           "type": "STRING",
-          "value": "arcsinarcsinh"
+          "value": "arcsin"
+        },
+        {
+          "type": "STRING",
+          "value": "arcsinh"
         },
         {
           "type": "STRING",
@@ -807,7 +811,11 @@
         },
         {
           "type": "STRING",
-          "value": "bandbin"
+          "value": "band"
+        },
+        {
+          "type": "STRING",
+          "value": "bin"
         },
         {
           "type": "STRING",
@@ -827,7 +835,11 @@
         },
         {
           "type": "STRING",
-          "value": "ceilchr"
+          "value": "ceil"
+        },
+        {
+          "type": "STRING",
+          "value": "chr"
         },
         {
           "type": "STRING",
@@ -847,7 +859,11 @@
         },
         {
           "type": "STRING",
-          "value": "depthdict?"
+          "value": "depth"
+        },
+        {
+          "type": "STRING",
+          "value": "dict?"
         },
         {
           "type": "STRING",
@@ -867,7 +883,11 @@
         },
         {
           "type": "STRING",
-          "value": "fclosefexists?"
+          "value": "fclose"
+        },
+        {
+          "type": "STRING",
+          "value": "fexists?"
         },
         {
           "type": "STRING",
@@ -887,7 +907,11 @@
         },
         {
           "type": "STRING",
-          "value": "freadfreadt"
+          "value": "fread"
+        },
+        {
+          "type": "STRING",
+          "value": "freadt"
         },
         {
           "type": "STRING",
@@ -907,7 +931,11 @@
         },
         {
           "type": "STRING",
-          "value": "fwritefwritet"
+          "value": "fwrite"
+        },
+        {
+          "type": "STRING",
+          "value": "fwritet"
         },
         {
           "type": "STRING",
@@ -919,19 +947,23 @@
         },
         {
           "type": "STRING",
-          "value": "idot"
-        },
-        {
-          "type": "STRING",
           "value": "input"
         },
         {
           "type": "STRING",
-          "value": "intint?"
+          "value": "int"
+        },
+        {
+          "type": "STRING",
+          "value": "int?"
         },
         {
           "type": "STRING",
           "value": "intlist?"
+        },
+        {
+          "type": "STRING",
+          "value": "ints"
         },
         {
           "type": "STRING",
@@ -947,7 +979,11 @@
         },
         {
           "type": "STRING",
-          "value": "lnlog"
+          "value": "ln"
+        },
+        {
+          "type": "STRING",
+          "value": "log"
         },
         {
           "type": "STRING",
@@ -967,7 +1003,11 @@
         },
         {
           "type": "STRING",
-          "value": "null?number?"
+          "value": "null?"
+        },
+        {
+          "type": "STRING",
+          "value": "number?"
         },
         {
           "type": "STRING",
@@ -987,7 +1027,11 @@
         },
         {
           "type": "STRING",
-          "value": "raiserand"
+          "value": "raise"
+        },
+        {
+          "type": "STRING",
+          "value": "rand"
         },
         {
           "type": "STRING",
@@ -1007,7 +1051,11 @@
         },
         {
           "type": "STRING",
-          "value": "sgnshape"
+          "value": "sgn"
+        },
+        {
+          "type": "STRING",
+          "value": "shape"
         },
         {
           "type": "STRING",
@@ -1027,7 +1075,15 @@
         },
         {
           "type": "STRING",
-          "value": "sinhsqrt"
+          "value": "sinh"
+        },
+        {
+          "type": "STRING",
+          "value": "sort"
+        },
+        {
+          "type": "STRING",
+          "value": "sqrt"
         },
         {
           "type": "STRING",
@@ -1047,7 +1103,11 @@
         },
         {
           "type": "STRING",
-          "value": "tanhtype"
+          "value": "tanh"
+        },
+        {
+          "type": "STRING",
+          "value": "type"
         },
         {
           "type": "STRING",
