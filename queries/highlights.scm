@@ -1,6 +1,7 @@
 ;; comments
 (comment) @comment
 (shebang) @comment
+((magic_command) @meta)
 
 ;; literals
 (integer)   @number
@@ -8,13 +9,15 @@
 (string)    @string
 (character) @character
 (symbol_lit) @constant.builtin
-(true)  @constant.builtin
-(false) @constant.builtin
+(true)  @boolean
+(false) @boolean
 (inf)   @constant.builtin
 (nan)   @constant.builtin
 
 ;; identifiers
+(variable_ref (builtin) @function.builtin)
 (variable_ref (identifier) @variable)
+(builtin) @function.builtin
 (identifier) @variable
 
 ;; keywords & control forms
@@ -30,7 +33,7 @@
 (try_form      "@t"     @keyword)
 
 ;; operators & punctuation
-["+" "-" "*" "/" "/." "%" "%." "^"
+["+" "-" "*" "/" "/." "%" "%." "^" "|"
  "=" "~" "<" "<=" ">" ">="] @operator
 
 [":" "," ";"] @punctuation.delimiter
@@ -45,8 +48,40 @@
 ;; Fallback: highlight function literals themselves (body blocks)
 (function_literal) @function
 
-;; Function-like calls via juxtaposition: match one suffix level
+;; Calls: any postfix with at least one suffix
 ((postfix
    (postfix
      primary: (primary (variable_ref (identifier) @function.call)))
-   (suffix (juxtaposition_arg) @argument)))
+   (suffix)))
+((postfix
+   (postfix
+     primary: (primary (variable_ref (builtin) @function.builtin)))
+   (suffix)))
+
+;; Call arguments
+;; - Juxtaposition argument (f 1)
+(suffix (juxtaposition_arg) @argument)
+;; - Index arguments inside brackets (f[1], f[1;2], f[])
+;;   Match any bracket item expression directly
+(item (expression) @argument)
+
+;; Pipe call highlighting: RHS function name in a pipe
+;; Simple function on RHS: x | f
+((pipe_expr
+   (postfix
+     primary: (primary (variable_ref (identifier) @function.call)))))
+
+;; Function with one suffix on RHS: x | f[...]
+((pipe_expr
+   (postfix
+     (postfix
+       primary: (primary (variable_ref (identifier) @function.call))))))
+
+;; Builtin variants on RHS of pipe
+((pipe_expr
+   (postfix
+     primary: (primary (variable_ref (builtin) @function.builtin)))))
+((pipe_expr
+   (postfix
+     (postfix
+       primary: (primary (variable_ref (builtin) @function.builtin))))))

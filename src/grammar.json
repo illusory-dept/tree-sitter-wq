@@ -36,6 +36,22 @@
         }
       ]
     },
+    "magic_command": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "!"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\n]*"
+          }
+        ]
+      }
+    },
     "sep_unit": {
       "type": "CHOICE",
       "members": [
@@ -134,8 +150,17 @@
       ]
     },
     "statement": {
-      "type": "SYMBOL",
-      "name": "expression"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "magic_command"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        }
+      ]
     },
     "expression": {
       "type": "CHOICE",
@@ -146,7 +171,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "comma_expr"
+          "name": "pipe_expr"
         }
       ]
     },
@@ -161,7 +186,7 @@
             "name": "left",
             "content": {
               "type": "SYMBOL",
-              "name": "comma_expr"
+              "name": "pipe_expr"
             }
           },
           {
@@ -174,6 +199,35 @@
             "content": {
               "type": "SYMBOL",
               "name": "expression"
+            }
+          }
+        ]
+      }
+    },
+    "pipe_expr": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "comma_expr"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "|"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "postfix"
+                }
+              ]
             }
           }
         ]
@@ -708,9 +762,323 @@
         }
       ]
     },
+    "builtin": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "abs"
+        },
+        {
+          "type": "STRING",
+          "value": "alloc"
+        },
+        {
+          "type": "STRING",
+          "value": "and"
+        },
+        {
+          "type": "STRING",
+          "value": "arccos"
+        },
+        {
+          "type": "STRING",
+          "value": "arccosh"
+        },
+        {
+          "type": "STRING",
+          "value": "arcsinarcsinh"
+        },
+        {
+          "type": "STRING",
+          "value": "arctan"
+        },
+        {
+          "type": "STRING",
+          "value": "arctanh"
+        },
+        {
+          "type": "STRING",
+          "value": "asciiplot"
+        },
+        {
+          "type": "STRING",
+          "value": "atom?"
+        },
+        {
+          "type": "STRING",
+          "value": "bandbin"
+        },
+        {
+          "type": "STRING",
+          "value": "bnot"
+        },
+        {
+          "type": "STRING",
+          "value": "bor"
+        },
+        {
+          "type": "STRING",
+          "value": "bxor"
+        },
+        {
+          "type": "STRING",
+          "value": "cat"
+        },
+        {
+          "type": "STRING",
+          "value": "ceilchr"
+        },
+        {
+          "type": "STRING",
+          "value": "cos"
+        },
+        {
+          "type": "STRING",
+          "value": "cosh"
+        },
+        {
+          "type": "STRING",
+          "value": "count"
+        },
+        {
+          "type": "STRING",
+          "value": "decode"
+        },
+        {
+          "type": "STRING",
+          "value": "depthdict?"
+        },
+        {
+          "type": "STRING",
+          "value": "echo"
+        },
+        {
+          "type": "STRING",
+          "value": "encode"
+        },
+        {
+          "type": "STRING",
+          "value": "exec"
+        },
+        {
+          "type": "STRING",
+          "value": "exp"
+        },
+        {
+          "type": "STRING",
+          "value": "fclosefexists?"
+        },
+        {
+          "type": "STRING",
+          "value": "flatten"
+        },
+        {
+          "type": "STRING",
+          "value": "float?"
+        },
+        {
+          "type": "STRING",
+          "value": "floor"
+        },
+        {
+          "type": "STRING",
+          "value": "fmt"
+        },
+        {
+          "type": "STRING",
+          "value": "freadfreadt"
+        },
+        {
+          "type": "STRING",
+          "value": "freadtln"
+        },
+        {
+          "type": "STRING",
+          "value": "fseek"
+        },
+        {
+          "type": "STRING",
+          "value": "fsize"
+        },
+        {
+          "type": "STRING",
+          "value": "ftell"
+        },
+        {
+          "type": "STRING",
+          "value": "fwritefwritet"
+        },
+        {
+          "type": "STRING",
+          "value": "hash"
+        },
+        {
+          "type": "STRING",
+          "value": "hex"
+        },
+        {
+          "type": "STRING",
+          "value": "idot"
+        },
+        {
+          "type": "STRING",
+          "value": "input"
+        },
+        {
+          "type": "STRING",
+          "value": "intint?"
+        },
+        {
+          "type": "STRING",
+          "value": "intlist?"
+        },
+        {
+          "type": "STRING",
+          "value": "iota"
+        },
+        {
+          "type": "STRING",
+          "value": "keys"
+        },
+        {
+          "type": "STRING",
+          "value": "list?"
+        },
+        {
+          "type": "STRING",
+          "value": "lnlog"
+        },
+        {
+          "type": "STRING",
+          "value": "m?"
+        },
+        {
+          "type": "STRING",
+          "value": "mkdir"
+        },
+        {
+          "type": "STRING",
+          "value": "neg"
+        },
+        {
+          "type": "STRING",
+          "value": "not"
+        },
+        {
+          "type": "STRING",
+          "value": "null?number?"
+        },
+        {
+          "type": "STRING",
+          "value": "oct"
+        },
+        {
+          "type": "STRING",
+          "value": "open"
+        },
+        {
+          "type": "STRING",
+          "value": "or"
+        },
+        {
+          "type": "STRING",
+          "value": "ord"
+        },
+        {
+          "type": "STRING",
+          "value": "raiserand"
+        },
+        {
+          "type": "STRING",
+          "value": "reshape"
+        },
+        {
+          "type": "STRING",
+          "value": "reverse"
+        },
+        {
+          "type": "STRING",
+          "value": "rg"
+        },
+        {
+          "type": "STRING",
+          "value": "round"
+        },
+        {
+          "type": "STRING",
+          "value": "sgnshape"
+        },
+        {
+          "type": "STRING",
+          "value": "shl"
+        },
+        {
+          "type": "STRING",
+          "value": "showt"
+        },
+        {
+          "type": "STRING",
+          "value": "shr"
+        },
+        {
+          "type": "STRING",
+          "value": "sin"
+        },
+        {
+          "type": "STRING",
+          "value": "sinhsqrt"
+        },
+        {
+          "type": "STRING",
+          "value": "str"
+        },
+        {
+          "type": "STRING",
+          "value": "str?"
+        },
+        {
+          "type": "STRING",
+          "value": "symbol"
+        },
+        {
+          "type": "STRING",
+          "value": "tan"
+        },
+        {
+          "type": "STRING",
+          "value": "tanhtype"
+        },
+        {
+          "type": "STRING",
+          "value": "typev"
+        },
+        {
+          "type": "STRING",
+          "value": "uniform?"
+        },
+        {
+          "type": "STRING",
+          "value": "where"
+        },
+        {
+          "type": "STRING",
+          "value": "xor"
+        }
+      ]
+    },
     "variable_ref": {
-      "type": "SYMBOL",
-      "name": "identifier"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "builtin"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        }
+      ]
     },
     "function_literal": {
       "type": "SEQ",
@@ -1367,7 +1735,8 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "[A-Za-z_][A-Za-z0-9_?]*"
+      "value": "[\\p{ID_Start}_][\\p{ID_Continue}_?]*",
+      "flags": "u"
     },
     "integer": {
       "type": "TOKEN",
@@ -1434,7 +1803,8 @@
           },
           {
             "type": "PATTERN",
-            "value": "[A-Za-z_][A-Za-z0-9_?]*"
+            "value": "[\\p{ID_Start}_][\\p{ID_Continue}_?]*",
+            "flags": "u"
           }
         ]
       }
@@ -1448,30 +1818,12 @@
       "value": "false"
     },
     "inf": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "Inf"
-        },
-        {
-          "type": "STRING",
-          "value": "inf"
-        }
-      ]
+      "type": "STRING",
+      "value": "inf"
     },
     "nan": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "NaN"
-        },
-        {
-          "type": "STRING",
-          "value": "nan"
-        }
-      ]
+      "type": "STRING",
+      "value": "nan"
     },
     "comment": {
       "type": "TOKEN",

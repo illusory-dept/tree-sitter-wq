@@ -26,6 +26,8 @@ module.exports = grammar({
     source_file: ($) =>
       seq(optional($.shebang), repeat(choice($.statement, $.sep_unit))),
 
+    magic_command: ($) => token(seq("!", /[^\n]*/)),
+
     // separators
     // ==========
     // Atomic separator unit: either ';' or one+ newlines
@@ -46,19 +48,24 @@ module.exports = grammar({
       choice(seq(repeat($.sep_unit), $.statements, repeat($.sep_unit)), $.seps),
 
     // Statements are expressions (assignment is part of expression parsing)
-    statement: ($) => $.expression,
+    statement: ($) => choice($.magic_command, $.expression),
 
     // expressions
     // ===========
-    // Expressions: assignment or plain comma expression
-    expression: ($) => choice($.assignment, $.comma_expr),
+    // Expressions: assignment or pipe
+    expression: ($) => choice($.assignment, $.pipe_expr),
 
-    // Assignment as right-associative operator without LHS restriction
+    // Assignment as right-associative operator; binds looser than pipe
     assignment: ($) =>
       prec.right(
         1,
-        seq(field("left", $.comma_expr), ":", field("right", $.expression)),
+        seq(field("left", $.pipe_expr), ":", field("right", $.expression)),
       ),
+
+    // Pipe
+    // ====
+    // Left-associative pipe where RHS is a postfix and LHS is a comma expr
+    pipe_expr: ($) => prec.left(seq($.comma_expr, repeat(seq("|", $.postfix)))),
 
     // Comma
     // =====
@@ -172,7 +179,87 @@ module.exports = grammar({
         $.nan,
       ),
 
-    variable_ref: ($) => $.identifier,
+    // Builtin identifiers: special names treated distinctly for highlighting and semantics
+    builtin: (_) =>
+      choice(
+        "abs",
+        "alloc",
+        "and",
+        "arccos",
+        "arccosh",
+        "arcsinarcsinh",
+        "arctan",
+        "arctanh",
+        "asciiplot",
+        "atom?",
+        "bandbin",
+        "bnot",
+        "bor",
+        "bxor",
+        "cat",
+        "ceilchr",
+        "cos",
+        "cosh",
+        "count",
+        "decode",
+        "depthdict?",
+        "echo",
+        "encode",
+        "exec",
+        "exp",
+        "fclosefexists?",
+        "flatten",
+        "float?",
+        "floor",
+        "fmt",
+        "freadfreadt",
+        "freadtln",
+        "fseek",
+        "fsize",
+        "ftell",
+        "fwritefwritet",
+        "hash",
+        "hex",
+        "idot",
+        "input",
+        "intint?",
+        "intlist?",
+        "iota",
+        "keys",
+        "list?",
+        "lnlog",
+        "m?",
+        "mkdir",
+        "neg",
+        "not",
+        "null?number?",
+        "oct",
+        "open",
+        "or",
+        "ord",
+        "raiserand",
+        "reshape",
+        "reverse",
+        "rg",
+        "round",
+        "sgnshape",
+        "shl",
+        "showt",
+        "shr",
+        "sin",
+        "sinhsqrt",
+        "str",
+        "str?",
+        "symbol",
+        "tan",
+        "tanhtype",
+        "typev",
+        "uniform?",
+        "where",
+        "xor",
+      ),
+
+    variable_ref: ($) => choice($.builtin, $.identifier),
 
     // FunctionLiteral ::= '{' [ParamList] Block '}' with empty-block allowed via optional(block)
     function_literal: ($) =>
@@ -291,7 +378,8 @@ module.exports = grammar({
 
     // Tokens
     // ======
-    identifier: ($) => /[A-Za-z_][A-Za-z0-9_?]*/,
+    // identifier: (_) => /[A-Za-z_][A-Za-z0-9_?]*/,
+    identifier: ($) => /[\p{ID_Start}_][\p{ID_Continue}_?]*/u,
 
     integer: ($) => token(/[0-9]+/),
     float: ($) => token(/[0-9]+\.[0-9]+/),
@@ -299,12 +387,13 @@ module.exports = grammar({
     character: ($) => token(seq("'", /([^'\\]|\\.)/, "'")),
     string: ($) => token(seq('"', /([^"\\]|\\.)*/, '"')),
 
-    symbol_lit: ($) => token(seq("`", /[A-Za-z_][A-Za-z0-9_?]*/)),
+    // symbol_lit: (_) => token(seq("`", /[A-Za-z_][A-Za-z0-9_?]*/)),
+    symbol_lit: ($) => token(seq("`", /[\p{ID_Start}_][\p{ID_Continue}_?]*/u)),
 
     true: ($) => "true",
     false: ($) => "false",
-    inf: ($) => choice("Inf", "inf"),
-    nan: ($) => choice("NaN", "nan"),
+    inf: ($) => "inf",
+    nan: ($) => "nan",
 
     comment: ($) => token(seq("//", /[^\n]*/)),
 

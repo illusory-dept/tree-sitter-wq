@@ -38,7 +38,7 @@
         "required": true,
         "types": [
           {
-            "type": "comma_expr",
+            "type": "pipe_expr",
             "named": true
           }
         ]
@@ -149,6 +149,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "builtin",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "comma_expr",
@@ -347,7 +352,7 @@
           "named": true
         },
         {
-          "type": "comma_expr",
+          "type": "pipe_expr",
           "named": true
         }
       ]
@@ -422,11 +427,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "inf",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "item",
@@ -540,11 +540,6 @@
     }
   },
   {
-    "type": "nan",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "nonminus_unary",
     "named": true,
     "fields": {},
@@ -607,6 +602,25 @@
         },
         {
           "type": "newline",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pipe_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comma_expr",
+          "named": true
+        },
+        {
+          "type": "postfix",
           "named": true
         }
       ]
@@ -819,6 +833,10 @@
         {
           "type": "expression",
           "named": true
+        },
+        {
+          "type": "magic_command",
+          "named": true
         }
       ]
     }
@@ -899,6 +917,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "builtin",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
@@ -1047,15 +1069,7 @@
     "named": false
   },
   {
-    "type": "Inf",
-    "named": false
-  },
-  {
     "type": "N",
-    "named": false
-  },
-  {
-    "type": "NaN",
     "named": false
   },
   {
@@ -1075,6 +1089,70 @@
     "named": false
   },
   {
+    "type": "abs",
+    "named": false
+  },
+  {
+    "type": "alloc",
+    "named": false
+  },
+  {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "arccos",
+    "named": false
+  },
+  {
+    "type": "arccosh",
+    "named": false
+  },
+  {
+    "type": "arcsinarcsinh",
+    "named": false
+  },
+  {
+    "type": "arctan",
+    "named": false
+  },
+  {
+    "type": "arctanh",
+    "named": false
+  },
+  {
+    "type": "asciiplot",
+    "named": false
+  },
+  {
+    "type": "atom?",
+    "named": false
+  },
+  {
+    "type": "bandbin",
+    "named": false
+  },
+  {
+    "type": "bnot",
+    "named": false
+  },
+  {
+    "type": "bor",
+    "named": false
+  },
+  {
+    "type": "bxor",
+    "named": false
+  },
+  {
+    "type": "cat",
+    "named": false
+  },
+  {
+    "type": "ceilchr",
+    "named": false
+  },
+  {
     "type": "character",
     "named": true
   },
@@ -1084,19 +1162,115 @@
     "extra": true
   },
   {
+    "type": "cos",
+    "named": false
+  },
+  {
+    "type": "cosh",
+    "named": false
+  },
+  {
+    "type": "count",
+    "named": false
+  },
+  {
+    "type": "decode",
+    "named": false
+  },
+  {
+    "type": "depthdict?",
+    "named": false
+  },
+  {
+    "type": "echo",
+    "named": false
+  },
+  {
+    "type": "encode",
+    "named": false
+  },
+  {
+    "type": "exec",
+    "named": false
+  },
+  {
+    "type": "exp",
+    "named": false
+  },
+  {
     "type": "false",
     "named": true
+  },
+  {
+    "type": "fclosefexists?",
+    "named": false
+  },
+  {
+    "type": "flatten",
+    "named": false
   },
   {
     "type": "float",
     "named": true
   },
   {
+    "type": "float?",
+    "named": false
+  },
+  {
+    "type": "floor",
+    "named": false
+  },
+  {
+    "type": "fmt",
+    "named": false
+  },
+  {
+    "type": "freadfreadt",
+    "named": false
+  },
+  {
+    "type": "freadtln",
+    "named": false
+  },
+  {
+    "type": "fseek",
+    "named": false
+  },
+  {
+    "type": "fsize",
+    "named": false
+  },
+  {
+    "type": "ftell",
+    "named": false
+  },
+  {
+    "type": "fwritefwritet",
+    "named": false
+  },
+  {
+    "type": "hash",
+    "named": false
+  },
+  {
+    "type": "hex",
+    "named": false
+  },
+  {
     "type": "identifier",
     "named": true
   },
   {
+    "type": "idot",
+    "named": false
+  },
+  {
     "type": "inf",
+    "named": true
+  },
+  {
+    "type": "input",
     "named": false
   },
   {
@@ -1104,7 +1278,47 @@
     "named": true
   },
   {
+    "type": "intint?",
+    "named": false
+  },
+  {
+    "type": "intlist?",
+    "named": false
+  },
+  {
+    "type": "iota",
+    "named": false
+  },
+  {
+    "type": "keys",
+    "named": false
+  },
+  {
+    "type": "list?",
+    "named": false
+  },
+  {
+    "type": "lnlog",
+    "named": false
+  },
+  {
+    "type": "m?",
+    "named": false
+  },
+  {
+    "type": "magic_command",
+    "named": true
+  },
+  {
+    "type": "mkdir",
+    "named": false
+  },
+  {
     "type": "nan",
+    "named": true
+  },
+  {
+    "type": "neg",
     "named": false
   },
   {
@@ -1112,23 +1326,131 @@
     "named": true
   },
   {
+    "type": "not",
+    "named": false
+  },
+  {
+    "type": "null?number?",
+    "named": false
+  },
+  {
+    "type": "oct",
+    "named": false
+  },
+  {
+    "type": "open",
+    "named": false
+  },
+  {
+    "type": "or",
+    "named": false
+  },
+  {
+    "type": "ord",
+    "named": false
+  },
+  {
+    "type": "raiserand",
+    "named": false
+  },
+  {
+    "type": "reshape",
+    "named": false
+  },
+  {
+    "type": "reverse",
+    "named": false
+  },
+  {
+    "type": "rg",
+    "named": false
+  },
+  {
+    "type": "round",
+    "named": false
+  },
+  {
+    "type": "sgnshape",
+    "named": false
+  },
+  {
     "type": "shebang",
     "named": true
+  },
+  {
+    "type": "shl",
+    "named": false
+  },
+  {
+    "type": "showt",
+    "named": false
+  },
+  {
+    "type": "shr",
+    "named": false
+  },
+  {
+    "type": "sin",
+    "named": false
+  },
+  {
+    "type": "sinhsqrt",
+    "named": false
+  },
+  {
+    "type": "str",
+    "named": false
+  },
+  {
+    "type": "str?",
+    "named": false
   },
   {
     "type": "string",
     "named": true
   },
   {
+    "type": "symbol",
+    "named": false
+  },
+  {
     "type": "symbol_lit",
     "named": true
+  },
+  {
+    "type": "tan",
+    "named": false
+  },
+  {
+    "type": "tanhtype",
+    "named": false
   },
   {
     "type": "true",
     "named": true
   },
   {
+    "type": "typev",
+    "named": false
+  },
+  {
+    "type": "uniform?",
+    "named": false
+  },
+  {
+    "type": "where",
+    "named": false
+  },
+  {
+    "type": "xor",
+    "named": false
+  },
+  {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
     "named": false
   },
   {
