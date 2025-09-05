@@ -815,11 +815,19 @@
         },
         {
           "type": "STRING",
+          "value": "bfn"
+        },
+        {
+          "type": "STRING",
           "value": "bin"
         },
         {
           "type": "STRING",
           "value": "bnot"
+        },
+        {
+          "type": "STRING",
+          "value": "bool?"
         },
         {
           "type": "STRING",
@@ -895,15 +903,15 @@
         },
         {
           "type": "STRING",
-          "value": "float?"
-        },
-        {
-          "type": "STRING",
           "value": "floor"
         },
         {
           "type": "STRING",
           "value": "fmt"
+        },
+        {
+          "type": "STRING",
+          "value": "fn?"
         },
         {
           "type": "STRING",
@@ -987,6 +995,14 @@
         },
         {
           "type": "STRING",
+          "value": "log10"
+        },
+        {
+          "type": "STRING",
+          "value": "log2"
+        },
+        {
+          "type": "STRING",
           "value": "m?"
         },
         {
@@ -1000,10 +1016,6 @@
         {
           "type": "STRING",
           "value": "not"
-        },
-        {
-          "type": "STRING",
-          "value": "null?"
         },
         {
           "type": "STRING",
@@ -1024,6 +1036,14 @@
         {
           "type": "STRING",
           "value": "ord"
+        },
+        {
+          "type": "STRING",
+          "value": "print"
+        },
+        {
+          "type": "STRING",
+          "value": "println"
         },
         {
           "type": "STRING",
@@ -1095,6 +1115,10 @@
         },
         {
           "type": "STRING",
+          "value": "stream?"
+        },
+        {
+          "type": "STRING",
           "value": "symbol"
         },
         {
@@ -1116,6 +1140,10 @@
         {
           "type": "STRING",
           "value": "uniform?"
+        },
+        {
+          "type": "STRING",
+          "value": "unit?"
         },
         {
           "type": "STRING",

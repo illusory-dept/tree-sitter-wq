@@ -1137,11 +1137,19 @@
     "named": false
   },
   {
+    "type": "bfn",
+    "named": false
+  },
+  {
     "type": "bin",
     "named": false
   },
   {
     "type": "bnot",
+    "named": false
+  },
+  {
+    "type": "bool?",
     "named": false
   },
   {
@@ -1234,15 +1242,15 @@
     "named": true
   },
   {
-    "type": "float?",
-    "named": false
-  },
-  {
     "type": "floor",
     "named": false
   },
   {
     "type": "fmt",
+    "named": false
+  },
+  {
+    "type": "fn?",
     "named": false
   },
   {
@@ -1338,6 +1346,14 @@
     "named": false
   },
   {
+    "type": "log10",
+    "named": false
+  },
+  {
+    "type": "log2",
+    "named": false
+  },
+  {
     "type": "m?",
     "named": false
   },
@@ -1366,10 +1382,6 @@
     "named": false
   },
   {
-    "type": "null?",
-    "named": false
-  },
-  {
     "type": "number?",
     "named": false
   },
@@ -1387,6 +1399,14 @@
   },
   {
     "type": "ord",
+    "named": false
+  },
+  {
+    "type": "print",
+    "named": false
+  },
+  {
+    "type": "println",
     "named": false
   },
   {
@@ -1462,6 +1482,10 @@
     "named": false
   },
   {
+    "type": "stream?",
+    "named": false
+  },
+  {
     "type": "string",
     "named": true
   },
@@ -1495,6 +1519,10 @@
   },
   {
     "type": "uniform?",
+    "named": false
+  },
+  {
+    "type": "unit?",
     "named": false
   },
   {
